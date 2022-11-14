@@ -1,0 +1,38 @@
+#+title: airport and railways
+#+created: [2022-11-12 sáb 17:28]
+
+* Formulações
+
+\begin{alignat*}{4}
+& \omit\rlap{minimize  $\displaystyle \sum_{u \in V} x_u a_u + \sum_{e \in E} y_e r_e $} \\
+& \mbox{sujeito a}&& \quad & \sum_{v \in V} z_{uv} &\leq Kx_u            & \quad & \forall u \in V \\
+&                 &&       & z_{uu}& = x_{u}            &       & \forall u \in V \\
+&                 &&       & z_{uv}& \leq x_{u}            &       & \forall u,v \in V \\
+&                 &&       & \sum_{u \in V} z_{uv}& \geq 1            &       & \forall v \in V \\
+&                 &&       & \sum_{e \in \delta(S)} y_e& \geq z_{uv}            &       & \forall u,v \in V \ \forall S \subset V, t.q.\{u\} \subseteq S \subseteq V \setminus \{v\}  \\
+&                 &&       & x_u, y_e, z_{uv} & \in \{0,1\}            &       & \forall u,v \in V \ \forall e \in E\\
+\end{alignat*}
+
+
+\begin{alignat*}{4}
+& \omit\rlap{minimize  $\displaystyle \sum_{i \in V} y_i a_i + \sum_{i \in V} \sum_{j \in V} z_{ij} r_{ij} $} \\
+& \mbox{sujeito a}&& \quad & \sum_{i \in V} x_{iv} &= \sum_{i \in V} x_{vi} + 1 & \quad & \forall v \in V \\
+&                 &&       & x_{sv}  &\leq k y_v            &       & \forall v \in V \\
+&                 &&       & x_{ij}  &\leq k z_{ij}            &       & \forall i,j \in V \\
+&                 &&       & x_{ij}  &\in \mathbb{N}_+            &       & \forall i,j \in V \cup \{s\}\\
+&                 &&       & y_i, z_{ij}  &\in \{0,1\}            &       & \forall i,j \in V \cup \{s\}\\
+\end{alignat*}
+
+No mínimo, eu tenho que saturar os aeroportos.
+$$ \sum y_i \geq \lceil \frac{n}{k} \rceil$$
+
+No ótimo, todo mundo só recebe fluxo de uma aresta, mas não aparenta melhorar a solução.
+$$ \sum z_{iv} = 1$$
+
+Talvez arredondar uma aresta pouco aberta para fechada? Mas isso pode estourar
+
+Todo vértice pode ser entendido como um "aeroporto" de capacidade $k_i^' = k - |{a_i, i}-path|$, onde $a_i$ é o aeroporto que o serve.
+
+Outra forma de pensar no problema é:
+- cada V' \subseteq V, o custo que este induz na solução é MST de V' + min{a_i for i in V'}.
+- Resta então achar uma partição de V.
